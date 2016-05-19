@@ -6,6 +6,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
+gem 'httparty'
 group :development, :test do
   gem 'dotenv-rails'
   gem 'byebug'
@@ -13,12 +14,14 @@ end
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'pry'
 end
 gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'high_voltage'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+gem 'google_drive'
 gem 'pg'
 gem 'puma'
 gem 'simple_form'

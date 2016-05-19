@@ -16,9 +16,9 @@ development:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: blapshots_development
+  database: classy_highlights_development
   pool:     5
-  username: blapshots
+  #username: classy_highlights
   password:
   template: template0
 
@@ -44,9 +44,9 @@ test:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: blapshots_test
+  database: classy_highlights_test
   pool:     5
-  username: blapshots
+  username: classy_highlights
   password:
   template: template0
 
@@ -54,8 +54,8 @@ production:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: blapshots_production
+  database: classy_highlights_production
   pool:     5
-  username: blapshots
+  username: classy_highlights
   password:
   template: template0

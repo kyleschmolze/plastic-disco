@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401232539) do
+ActiveRecord::Schema.define(version: 20160519054833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,29 @@ ActiveRecord::Schema.define(version: 20160401232539) do
     t.string   "name"
     t.string   "provider"
     t.string   "uid"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.json     "oauth_response"
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "google_id"
+    t.string   "name"
+    t.string   "mime_type"
+    t.string   "thumbnail"
+    t.datetime "starts_at"
+    t.integer  "duration"
+    t.datetime "ends_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "height"
+    t.integer  "width"
   end
+
+  add_index "videos", ["ends_at"], name: "index_videos_on_ends_at", using: :btree
+  add_index "videos", ["google_id"], name: "index_videos_on_google_id", using: :btree
+  add_index "videos", ["starts_at"], name: "index_videos_on_starts_at", using: :btree
+  add_index "videos", ["user_id"], name: "index_videos_on_user_id", using: :btree
 
 end

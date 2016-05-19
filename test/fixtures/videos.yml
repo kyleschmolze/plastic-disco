@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  google_id: MyString
+  name: MyString
+  mime_type: MyString
+  thumbnail: MyString
+  starts_at: 2016-04-01 18:00:05
+  duration: 1
+  ends_at: 2016-04-01 18:00:05
+
+two:
+  user_id: 1
+  google_id: MyString
+  name: MyString
+  mime_type: MyString
+  thumbnail: MyString
+  starts_at: 2016-04-01 18:00:05
+  duration: 1
+  ends_at: 2016-04-01 18:00:05
