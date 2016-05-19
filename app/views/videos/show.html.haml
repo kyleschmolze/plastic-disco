@@ -1,10 +1,10 @@
 .row
   .col-md-6.col-md-offset-3
-    .embed-responsive-item
-      %video(controls='controls')
-        %source{src: "https://drive.google.com/uc?id=#{@video.google_id}&export=download", type: @video.mime_type}
+    -#
+      .embed-responsive-item
+        %video(controls='controls')
+          %source{src: "https://drive.google.com/uc?id=#{@video.google_id}&export=download", type: @video.mime_type}
           
-    %hr
     .embed-responsive-item
       %iframe(src="https://docs.google.com/file/d/#{@video.google_id}/preview" width="640" height="480")
     %br
