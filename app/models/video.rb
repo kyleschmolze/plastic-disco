@@ -5,6 +5,10 @@ class Video < ActiveRecord::Base
   validates :user, presence: true
   validates :google_id, presence: true
 
+  def to_params
+    id
+  end
+
   def self.copy(file, user)
     duration = file.api_file.videoMediaMetadata.durationMillis rescue nil
 

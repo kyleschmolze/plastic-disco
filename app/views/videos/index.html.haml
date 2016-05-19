@@ -1,0 +1,11 @@
+%h1 Videos
+
+%ul.media-list
+  - for video in @videos
+    %li.media
+      .media-left
+        = link_to video_path(video.google_id) do
+          = image_tag video.thumbnail
+
+      .media-body
+        %h4.media-heading= link_to video.name, video_path(video.google_id)
