@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
     create! do |user|
       user.provider = auth['provider']
       user.uid = auth['uid']
-      user.oauth_response = auth
       if auth['info']
         user.name = auth['info']['name'] || ""
       end

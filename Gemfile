@@ -18,6 +18,8 @@ group :development do
 end
 gem 'bootstrap-sass'
 gem 'haml-rails'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 gem 'high_voltage'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'

@@ -11,5 +11,5 @@
     %p
       ID: #{@video.google_id} <br>
       Title: #{@video.name} <br>
-      Start time: #{@video.starts_at} <br>
-      Duration: #{@video.duration/1000} seconds <br>
+      Start time: #{@video.starts_at.strftime('%a, %b %e, %Y')} <br>
+      Duration: #{time_ago_in_words (@video.duration/1000).seconds.ago} <br>

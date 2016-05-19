@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :users
 
-  resources :videos, only: [:index, :show], param: :google_id
+  resources :videos, only: [:index, :show], param: :google_id do
+    get :import, on: :collection
+  end
 
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', :as => :signin
