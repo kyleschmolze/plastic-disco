@@ -2,6 +2,3 @@
   %li= link_to 'Sign out', signout_path
 - else
   %li= link_to 'Sign in', signin_path
-- if user_signed_in?
-  %li= link_to 'Users', users_path
-  %li= link_to 'Import my videos', import_videos_path

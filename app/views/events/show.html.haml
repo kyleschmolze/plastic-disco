@@ -1,0 +1,27 @@
+- for video in @event.videos
+  .row
+    .col-md-6
+      .video-container
+        %iframe(src="https://docs.google.com/file/d/#{video.google_id}/preview" width="640" height="480")
+    .col-md-6
+      %p
+        ID: #{video.google_id} <br>
+        Title: #{video.name} <br>
+        Start time: #{video.starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
+        End time: #{video.ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
+        Duration: #{time_ago_in_words (video.duration/1000).seconds.ago} <br>
+
+      %hr
+
+      - for event in video.events
+        %p
+          #{event.name}
+          %br
+          %small.text-muted
+            #{event.kind}, #{event.starts_at.strftime('%b %e, %l:%M:%S %p')}
+            - if event.ends_at
+              \- #{event.ends_at.strftime('%l:%M:%S %p')}
+            %br
+            #{(event.starts_at - video.starts_at).to_i} seconds into this clip
+
+  %hr

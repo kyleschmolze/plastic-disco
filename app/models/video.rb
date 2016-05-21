@@ -5,8 +5,12 @@ class Video < ActiveRecord::Base
   validates :user, presence: true
   validates :google_id, presence: true
 
-  def to_params
-    id
+  def to_param
+    google_id
+  end
+
+  def events
+    Event.where('(starts_at > ? AND starts_at < ?) OR (ends_at > ? AND ends_at < ?)', starts_at, ends_at, starts_at, ends_at)
   end
 
   def self.copy(file, user)

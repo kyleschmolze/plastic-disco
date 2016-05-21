@@ -1,15 +1,20 @@
-%h1 Videos (#{@videos.count})
+.page-header
+  %h1.text-center
+    Videos
+.row
+  .col-md-8.col-md-offset-2
+    = will_paginate @videos, renderer: BootstrapPagination::Rails
 
-= will_paginate @videos, renderer: BootstrapPagination::Rails
-- for video in @videos
-  .row
-    .col-sm-3.col-md-2
-      %p
-        = link_to video_path(video.google_id) do
-          = image_tag video.thumbnail, class: 'img-responsive'
-    .col-sm-9.col-md-10
-      %h4.no-top= link_to video.name, video_path(video.google_id)
-      %p
-        ID# #{video.google_id} <br>
-        #{video.starts_at.strftime('%a, %b %e, %Y')} <br>
-        #{time_ago_in_words (video.duration/1000).seconds.ago} <br>
+    - for video in @videos
+      %div
+        .pull-right
+          %small.text-muted
+            #{video.starts_at.strftime('%b %e, %l:%M%p')} -
+            #{video.ends_at.strftime('%l:%M%p')}
+
+        %p
+          = link_to video.name, video_path(video)
+
+      %hr
+
+    = will_paginate @videos, renderer: BootstrapPagination::Rails

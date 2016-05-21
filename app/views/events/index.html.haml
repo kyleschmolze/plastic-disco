@@ -1,0 +1,21 @@
+.page-header
+  %h1.text-center
+    Plays
+.row
+  .col-md-8.col-md-offset-2
+    = will_paginate @events, renderer: BootstrapPagination::Rails
+
+    - for event in @events
+      %div
+        .pull-right
+          %small.text-muted
+            #{event.kind}, #{event.starts_at.strftime('%b %e, %l:%M%p')}
+
+        %p
+          = link_to event.name, event_path(event)
+          %small.text-muted #{event.video_count} clips
+
+      %hr
+
+    = will_paginate @events, renderer: BootstrapPagination::Rails
+

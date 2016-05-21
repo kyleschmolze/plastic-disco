@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :users
 
+  resources :events, only: [:index, :show]
+
   resources :videos, only: [:index, :show], param: :google_id do
     get :import, on: :collection
   end
