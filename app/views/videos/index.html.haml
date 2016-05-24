@@ -5,16 +5,30 @@
   .col-md-8.col-md-offset-2
     = will_paginate @videos, renderer: BootstrapPagination::Rails
 
-    - for video in @videos
-      %div
-        .pull-right
-          %small.text-muted
-            #{video.starts_at.strftime('%b %e, %l:%M%p')} -
-            #{video.ends_at.strftime('%l:%M%p')}
+    %table.table
+      - for video in @videos
+        %tr
+          %td
+            = link_to video.name, video_path(video)
 
-        %p
-          = link_to video.name, video_path(video)
+          %td
+            %small.text-muted
+              - if video.duration < 60000
+                #{(video.duration/1000).to_i}s
+              - else
+                #{(video.duration/60000).to_i}m
 
-      %hr
+          %td
+            %small.text-muted
+              #{video.events.length} events
+
+          %td
+            %small.text-muted= video.youtube_id ? 'youtube' : 'drive'
+
+          %td.text-right
+            %small.text-muted
+              #{video.starts_at.strftime('%b %e, %l:%M%p')} -
+              #{video.ends_at.strftime('%l:%M%p')}
+
 
     = will_paginate @videos, renderer: BootstrapPagination::Rails

@@ -9,11 +9,13 @@
       %div
         .pull-right
           %small.text-muted
-            #{event.kind}, #{event.starts_at.strftime('%b %e, %l:%M%p')}
+            #{event.kind}, #{event.starts_at.strftime('%b %e, %l:%M:%S%p')}
+            - if event.ends_at
+              \ - #{event.ends_at.strftime('%l:%M:%S%p')}
 
         %p
           = link_to event.name, event_path(event)
-          %small.text-muted #{event.video_count} clips
+          %small.text-muted #{event.videos.length} clips
 
       %hr
 

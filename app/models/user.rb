@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
 
+  has_many :videos
+  has_many :events
+
   def self.create_with_omniauth(auth)
     create! do |user|
       user.provider = auth['provider']

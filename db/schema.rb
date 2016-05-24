@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160521000318) do
+ActiveRecord::Schema.define(version: 20160524080846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,18 @@ ActiveRecord::Schema.define(version: 20160521000318) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "video_count"
+    t.integer  "user_id"
   end
+
+  add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
+
+  create_table "events_videos", id: false, force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "video_id"
+  end
+
+  add_index "events_videos", ["event_id"], name: "index_events_videos_on_event_id", using: :btree
+  add_index "events_videos", ["video_id"], name: "index_events_videos_on_video_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name"
@@ -44,10 +55,13 @@ ActiveRecord::Schema.define(version: 20160521000318) do
     t.datetime "starts_at"
     t.integer  "duration"
     t.datetime "ends_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.integer  "height"
     t.integer  "width"
+    t.string   "youtube_id"
+    t.datetime "original_starts_at"
+    t.datetime "original_ends_at"
   end
 
   add_index "videos", ["ends_at"], name: "index_videos_on_ends_at", using: :btree

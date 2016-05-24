@@ -1,10 +1,10 @@
 class VideosController < ApplicationController
   def index
-    @videos = Video.order('starts_at ASC').paginate(page: params[:page], per_page: 100)
+    @videos = Video.includes(:events).order('starts_at ASC').paginate(page: params[:page], per_page: 100)
   end
 
   def show
-    @video = Video.find_by_google_id params[:google_id]
+    @video = Video.find params[:id]
   end
 
   def import

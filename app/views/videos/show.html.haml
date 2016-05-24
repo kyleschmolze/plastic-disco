@@ -1,7 +1,10 @@
 .row
   .col-md-6
-    .embed-responsive-item
-      %iframe(src="https://docs.google.com/file/d/#{@video.google_id}/preview" width="640" height="480")
+    .video-container
+      - if @video.youtube_id.present?
+        = render 'videos/embed', video: @video
+      - else
+        %iframe(src="https://docs.google.com/file/d/#{@video.google_id}/preview" width="640" height="480")
   .col-md-6
     %p
       ID: #{@video.google_id} <br>
@@ -21,4 +24,17 @@
           - if event.ends_at
             \- #{event.ends_at.strftime('%l:%M:%S %p')}
           %br
-          #{(event.starts_at - @video.starts_at).to_i} seconds into this clip
+          - if event.ends_at
+            - start_diff = (event.starts_at - @video.starts_at).to_i
+            - if start_diff >= 0
+              Starts #{start_diff} seconds into this clip,
+            - else
+              Starts #{start_diff*-1} seconds before this clip,
+            - end_diff = (event.ends_at - @video.ends_at).to_i
+            - if end_diff >= 0
+              ends #{end_diff} seconds after this clip.
+            - else
+              ends #{end_diff*-1} seconds into this clip.
+          - else
+            - diff = (event.starts_at - @video.starts_at).to_i
+            Happens #{diff} seconds into this clip,
