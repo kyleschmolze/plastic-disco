@@ -2,7 +2,10 @@
   .row
     .col-md-6
       .video-container
-        %iframe(src="https://docs.google.com/file/d/#{video.google_id}/preview" width="640" height="480")
+        - if video.youtube_id.present?
+          = render 'videos/embed', video: video
+        - else
+          %iframe(src="https://docs.google.com/file/d/#{video.google_id}/preview" width="640" height="480")
     .col-md-6
       %p
         ID: #{video.google_id} <br>
