@@ -1,23 +1,25 @@
 .page-header
   %h1.text-center
     Plays
-.row
+.row(ng-controller='EventsCtrl')
   .col-md-8.col-md-offset-2
-    = will_paginate @events, renderer: BootstrapPagination::Rails
 
-    - for event in @events
-      %div
-        .pull-right
-          %small.text-muted
-            #{event.kind}, #{event.starts_at.strftime('%b %e, %l:%M:%S%p')}
-            - if event.ends_at
-              \ - #{event.ends_at.strftime('%l:%M:%S%p')}
+    .form-group
+      %input.form-control(ng-model='query' ng-keydown='typing()')
 
-        %p
-          = link_to event.name, event_path(event)
-          %small.text-muted #{event.videos.length} clips
+
+    %div(ng-repeat='event in events')
+      .pull-right
+        %small.text-muted
+          {{event.kind}}, {{event.starts_at}}
+          %span(ng-if='event.ends_at') - {{event.ends_at}}
+
+      %p
+        %a(ng-href='/events/{{event.id}}') {{event.title}}
+        %small.text-muted {{event.video_count}} clips
 
       %hr
 
-    = will_paginate @events, renderer: BootstrapPagination::Rails
+    .text-center
+      %a.btn.btn-default(ng-click='loadMore()') Show more
 

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :users
 
-  resources :events, only: [:index, :show]
+  resources :events, only: [:index, :show] do
+    get :search, on: :collection
+  end
 
   resources :videos, only: [:index, :show] do
     get :import, on: :collection

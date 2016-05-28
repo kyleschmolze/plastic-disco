@@ -55,3 +55,5 @@ importer = Importer.new(User.first) # or whatever user you'd like
 (2) Videos stored in Google Drive: `importer.import_videos_from_google_drive`
 
 (3) Youtube video IDs for youtube playback: `importer.import_youtube_video_ids`
+
+(4) Scan timestamps to link events with videos: `Video.tag_all_events`

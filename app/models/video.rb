@@ -19,6 +19,10 @@ class Video < ActiveRecord::Base
     self.events = (starting_events + ending_events + surrounding_events).uniq
   end
 
+  def self.tag_all_events
+    Video.all.each(&:tag_events)
+  end
+
   def offset!
     self.starts_at = original_starts_at - VIDEO_OFFSET
     self.ends_at = original_ends_at - VIDEO_OFFSET

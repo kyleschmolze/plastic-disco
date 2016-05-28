@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'httparty'
 gem 'yt'
+gem 'rabl'
 group :development, :test do
   gem 'dotenv-rails'
   gem 'byebug'

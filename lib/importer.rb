@@ -46,7 +46,7 @@ class Importer
         game_end_time = point_end_time if game_end_time < point_end_time
 
 
-        user.events.create name: "#{tournament} > #{opponent} > #{our_score}-#{their_score}",
+        user.events.create title: "#{tournament} > #{opponent} > #{our_score}-#{their_score}",
                            kind: 'Point', starts_at: point_start_time, ends_at: point_end_time
 
 
@@ -83,7 +83,7 @@ class Importer
             play = "Throwaway by #{thrower}"
           end
 
-          user.events.create name: "#{tournament} > #{opponent} > #{our_score}-#{their_score} > #{play}",
+          user.events.create title: "#{tournament} > #{opponent} > #{our_score}-#{their_score} > #{play}",
                              kind: 'Play', starts_at: event_start_time
 
         end
@@ -91,7 +91,7 @@ class Importer
 
 
       # create game event now, cause we finally have start and end times from the points
-      user.events.create name: "#{tournament} > #{opponent}", kind: 'Game',
+      user.events.create title: "#{tournament} > #{opponent}", kind: 'Game',
                          starts_at: game_start_time-1.second, ends_at: game_end_time+1.second
 
     end
@@ -136,7 +136,7 @@ class Importer
                         starts_at: starts_at,
                         ends_at: ends_at,
                         duration: duration,
-                        name: file.title
+                        title: file.title
   end
 
   def import_youtube_video_ids
@@ -153,7 +153,7 @@ class Importer
     playlist = channel.playlists.find{|p| p.title.match /all/i }
     for item in playlist.playlist_items
     
-      existing_video = Video.find_by_name(item.title)
+      existing_video = Video.find_by_title(item.title)
       seen_titles << item.title
       next unless existing_video
 
@@ -165,7 +165,7 @@ class Importer
       matched_titles << item.title
     end
 
-    drive_only_titles = (Video.pluck(:name) - seen_titles).join(', ')
+    drive_only_titles = (Video.pluck(:title) - seen_titles).join(', ')
     puts "All seen titles: #{seen_titles.join(', ')}"
     puts "--------------------"
     puts "All matched titles: #{matched_titles.join(', ')}"
