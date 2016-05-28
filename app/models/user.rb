@@ -24,27 +24,4 @@ class User < ActiveRecord::Base
       true
     end
   end
-
-  def import_videos
-    return false if token_expired?
-    return false unless access_token.present?
-    session = GoogleDrive.login_with_oauth(access_token)
-    photos_folder = session.collections.find{|c| c.title == 'Google Photos'}
-    dig(photos_folder)
-  end
-
-  # recursively open collections (folders), import files
-  def dig(object)
-    if object.class == GoogleDrive::Collection
-      object.files do |file|
-        dig(file)
-      end
-    elsif object.class == GoogleDrive::File
-      unless Video.where(google_id: object.id).exists?
-        Video.copy(object, self)
-      end
-    end
-  end
-
-
 end
