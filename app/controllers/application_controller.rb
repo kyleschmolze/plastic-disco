@@ -7,7 +7,17 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?
   helper_method :correct_user?
 
+  after_filter :set_csrf_cookie_for_ng
+
+  def set_csrf_cookie_for_ng
+    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
+  end
+
   private
+
+    def verified_request?
+      super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])
+    end
 
     def current_user
       begin

@@ -1,3 +1,5 @@
+.page-header.text-center
+  %h1= @video.title
 .row
   .col-md-6
     .video-container
@@ -7,34 +9,51 @@
         %iframe(src="https://docs.google.com/file/d/#{@video.google_id}/preview" width="640" height="480")
   .col-md-6
     %p
-      ID: #{@video.google_id} <br>
-      Title: #{@video.title} <br>
-      Start time: #{@video.starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
-      End time: #{@video.ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
-      Duration: #{time_ago_in_words (@video.duration/1000).seconds.ago} <br>
+      Claims to start at: #{@video.original_starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
+      Claims to end at: #{@video.original_ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')}
 
     %hr
+    %p
+      Tag this event
+      %br
+      %small Navigate to a place in the video where a play happens, then find that play below, and tag it!
 
-    - for event in @video.events
-      %p
-        #{event.title}
-        %br
-        %small.text-muted
-          #{event.kind}, #{event.starts_at.strftime('%b %e, %l:%M:%S %p')}
-          - if event.ends_at
-            \- #{event.ends_at.strftime('%l:%M:%S %p')}
-          %br
-          - if event.ends_at
-            - start_diff = (event.starts_at - @video.starts_at).to_i
-            - if start_diff >= 0
-              Starts #{start_diff} seconds into this clip,
-            - else
-              Starts #{start_diff*-1} seconds before this clip,
-            - end_diff = (event.ends_at - @video.ends_at).to_i
-            - if end_diff >= 0
-              ends #{end_diff} seconds after this clip.
-            - else
-              ends #{end_diff*-1} seconds into this clip.
-          - else
-            - diff = (event.starts_at - @video.starts_at).to_i
-            Happens #{diff} seconds into this clip,
+    %div(ng-controller='EventsCtrl' ng-init="init('#{@video.id}')")
+
+      %div(ng-show='!selectedEvent')
+        .form-group
+          %input.form-control(ng-model='query' ng-keydown='typing()')
+
+
+        %div(ng-repeat='event in events')
+          .pull-right
+            %small.text-muted
+              {{event.kind}}, {{event.starts_at}}
+              %span(ng-if='event.ends_at') - {{event.ends_at}}
+
+          %p
+            {{event.title}}
+            %small
+              %a(ng-click='select(event)' href='javascript:void(0);') select
+
+          %hr
+
+        .text-center
+          %a.btn.btn-default(ng-click='loadMore()') Show more
+
+      %div(ng-show='selectedEvent')
+        .pull-right
+          %small.text-muted
+            {{selectedEvent.kind}}, {{selectedEvent.starts_at}}
+            %span(ng-if='selectedEvent.ends_at') - {{selectedEvent.ends_at}}
+
+        %p
+          {{selectedEvent.title}}
+
+        %p When does this play happen in the clip?
+
+        .form-group
+          %input.form-control(ng-model='minutesIntoClip' style='display: inline-block; width: 100px;' placeholder='min')
+          %input.form-control(ng-model='secondsIntoClip' style='display: inline-block; width: 100px;' placeholder='sec')
+          %a.btn.btn-default(ng-click='tagWithSelectedEvent()') Save
+

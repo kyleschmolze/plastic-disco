@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :videos, only: [:index, :show] do
     get :import, on: :collection
+    post :tag, on: :member
   end
 
   get '/auth/:provider/callback' => 'sessions#create'
