@@ -5,7 +5,7 @@
   %p.lead= pluralize @videos.length, 'clip'
 
 .row
-  .col-md-8.col-md-offset-2
+  .col-md-10.col-md-offset-1
 
     - @videos.each_with_index do |video, i|
       - seek = (@event.starts_at - video.starts_at).to_i

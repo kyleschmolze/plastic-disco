@@ -2,7 +2,7 @@
 .page-header.text-center
   %h1= @video.title
 .row
-  .col-md-6
+  .col-md-8
     .video-container
       - if @video.youtube_id.present?
         = render 'videos/embed', video: @video
@@ -43,7 +43,7 @@
         Is this video useless?
         = link_to 'Hide it.', video_path(@video, video: { hidden: true}), method: :put
 
-  .col-md-6
+  .col-md-4
     %div(ng-controller='EventsCtrl' ng-init="init('#{@video.id}')")
 
       %div(ng-show='!aligningVideo')
@@ -93,19 +93,20 @@
 
         %div(ng-show='!selectedEvent')
           .form-group
-            %input.form-control(ng-model='query' ng-keydown='typing()')
+            %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search here')
 
 
           %div(ng-repeat='event in events')
             .pull-right
-              %small.text-muted
-                {{event.kind}}, {{event.starts_at}}
-                %span(ng-if='event.ends_at') - {{event.ends_at}}
+              %small
+                %a(ng-click='select(event)' href='javascript:void(0);') select
 
             %p
               {{event.title}}
-              %small
-                %a(ng-click='select(event)' href='javascript:void(0);') select
+              %br
+              %small.text-muted
+                {{event.kind}}, {{event.starts_at}}
+                %span(ng-if='event.ends_at') - {{event.ends_at}}
 
             %hr
 

@@ -1,0 +1,7 @@
+
+Video.all.select{|v|v.title.match /GOPR37/ }.each{|v| v.starts_at = v.original_starts_at - 196.seconds; v.ends_at = v.original_ends_at - 196.seconds; v.save}
+Video.all.select{|v|v.title.match /GOPR38/ }.each{|v| v.starts_at = v.original_starts_at - 196.seconds; v.ends_at = v.original_ends_at - 196.seconds; v.save}
+
+
+Video.all.select{|v|v.title.match /GOPR07/ }.each{|v| v.starts_at = v.original_starts_at - 10.minutes; v.ends_at = v.original_ends_at - 10.minutes; v.save}
+Video.all.select{|v|v.title.match /GOPR08/ }.each{|v| v.starts_at = v.original_starts_at - 10.minutes; v.ends_at = v.original_ends_at - 10.minutes; v.save}
