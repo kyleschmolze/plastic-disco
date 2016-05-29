@@ -19,7 +19,6 @@ group :development do
   gem 'pry'
   gem 'unicorn'
 end
-gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'

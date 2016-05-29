@@ -1,11 +1,12 @@
 .page-header
   %h1.text-center
-    Plays
-.row(ng-controller='EventsCtrl')
+    Browse
+
+.row(ng-controller='EventsCtrl' ng-cloak)
   .col-md-8.col-md-offset-2
 
     .form-group
-      %input.form-control(ng-model='query' ng-keydown='typing()')
+      %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search by game, player, date, anything')
       .help-text.text-right
         .checkbox
           %label

@@ -1,14 +1,14 @@
 
-.no-top { margin-top: 0; }
-hr { margin: 10px 0; border-color: #999999; }
-
 html, body { 
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
 }
 
-a, a:hover { color: #2F80ED; }
 
+.no-top { margin-top: 0; }
+hr { margin: 10px 0; border-color: #999999; }
+
+a, a:hover { color: #2F80ED; }
 
 .video-container {
     position: relative;
@@ -29,3 +29,4 @@ a, a:hover { color: #2F80ED; }
 .table.table-middle td {
   vertical-align: middle;
 }
+.page-header { border-bottom: none; }

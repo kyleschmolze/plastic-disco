@@ -56,10 +56,13 @@
               %a(href='javascript:void(0);' ng-click='aligningVideo = true') Re-align it.
             - else
               Look right?
-              %a(href='javascript:void(0);' ng-click='alignWithoutEvent()') Mark it aligned.
+              %a(href='javascript:void(0);' ng-click='alignWithoutEvent()') Mark it as aligned.
               Look wrong?
               %a(href='javascript:void(0);' ng-click='aligningVideo = true') Align it.
 
+        - if @video.events.blank?
+          %hr
+          %p There are no events lined up with this video.
         - for event in @video.events
           %hr
           .pull-right

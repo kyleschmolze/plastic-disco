@@ -1,5 +1,5 @@
 -# navigation styled for Bootstrap 3.0
-%nav.navbar.navbar-default.navbar-fixed-top
+%nav.navbar.navbar-default
   .container
     .navbar-header
       %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
@@ -7,8 +7,14 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to 'Videos', videos_path, class: 'navbar-brand'
+      = link_to 'Home', events_path, class: 'navbar-brand'
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li= link_to 'Plays', events_path
-        = render 'layouts/nav_links_for_auth'
+        %li= link_to 'All videos', videos_path
+
+
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li= link_to 'Sign out', signout_path
+        - else
+          %li= link_to 'Sign in', signin_path
