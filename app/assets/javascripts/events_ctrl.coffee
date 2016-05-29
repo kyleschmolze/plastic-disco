@@ -22,8 +22,22 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
   $scope.select = (event) ->
     $scope.selectedEvent = event
 
-  $scope.tagWithSelectedEvent = ->
-    $http.post "/videos/#{$scope.video_id}/tag", { event_id: $scope.selectedEvent.id, seconds_into_clip: $scope.secondsIntoClip, minutes_into_clip: $scope.minutesIntoClip }
+  $scope.clearSelection = ->
+    $scope.selectedEvent = null
+
+  $scope.alignWithoutEvent = ->
+    $http.post "/videos/#{$scope.video_id}/align"
     .success (data) ->
-      alert "Success! Refresh the page to review"
+      alert "Success! Refreshing the page now for review..."
+      location.reload()
+    .error ->
+      alert "Failure!"
+
+  $scope.alignWithSelectedEvent = ->
+    $http.post "/videos/#{$scope.video_id}/align", { event_id: $scope.selectedEvent.id, seconds_into_clip: $scope.secondsIntoClip, minutes_into_clip: $scope.minutesIntoClip }
+    .success (data) ->
+      alert "Success! Refreshing the page now for review..."
+      location.reload()
+    .error (data) ->
+      alert "Failure! Did you input seconds and minutes?"
 ]

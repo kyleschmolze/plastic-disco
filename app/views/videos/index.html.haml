@@ -1,34 +1,47 @@
 .page-header
   %h1.text-center
     Videos
-.row
-  .col-md-8.col-md-offset-2
-    = will_paginate @videos, renderer: BootstrapPagination::Rails
 
-    %table.table
-      - for video in @videos
-        %tr
-          %td
-            = link_to video.title, video_path(video)
+= will_paginate @videos, renderer: BootstrapPagination::Rails
 
-          %td
-            %small.text-muted
-              - if video.duration < 60000
-                #{(video.duration/1000).to_i}s
-              - else
-                #{(video.duration/60000).to_i}m
+%table.table.table-middle
+  - for video in @videos
+    %tr
+      %td
+        = link_to video_path(video) do
+          = image_tag video.thumbnail, style: 'height: 50px;'
+      %td
+        = link_to video_path(video) do
+          #{video.starts_at.strftime('%b %e, %l:%M:%S %p')} -
+          #{video.ends_at.strftime('%l:%M:%S %p')}
 
-          %td
-            %small.text-muted
-              #{video.events.length} events
+      %td
+        %small.text-muted
+          - if video.duration < 60000
+            #{(video.duration/1000).to_i}s
+          - else
+            #{(video.duration/60000).to_i}m
 
-          %td
-            %small.text-muted= video.youtube_id ? 'youtube' : 'drive'
+      %td
+        %small.text-muted
+          #{video.events.length} events
 
-          %td.text-right
-            %small.text-muted
-              #{video.starts_at.strftime('%b %e, %l:%M%p')} -
-              #{video.ends_at.strftime('%l:%M%p')}
+      %td
+        %small.text-muted= video.youtube_id ? 'youtube' : 'drive'
+
+      %td
+        - if video.aligned?
+          %small.text-success
+            %i.fa.fa-check
+            Aligned
+        - else
+          %small.text-danger
+            %i.fa.fa-remove
+            Not aligned
+
+      %td.text-right
+        %small.text-muted
+          = video.title
 
 
-    = will_paginate @videos, renderer: BootstrapPagination::Rails
+= will_paginate @videos, renderer: BootstrapPagination::Rails

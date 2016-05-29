@@ -7,53 +7,115 @@
         = render 'videos/embed', video: @video
       - else
         %iframe(src="https://docs.google.com/file/d/#{@video.google_id}/preview" width="640" height="480")
+
+    %br
+
+    - if @video.aligned?
+      .alert.alert-success
+        %i.fa.fa-check
+        This video has been manually aligned.
+        %small= link_to 'remove alignment', unalign_video_path(@video), method: :post
+      
+
+      %p
+        %strong Manually aligned timestamps
+      %p
+        Manually aligned start time: #{@video.starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
+        Manually aligned end time: #{@video.ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')}
+
+    %p
+      %strong Video details
+    %p
+      Original file's start time: #{@video.original_starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
+      Original file's end time: #{@video.original_ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')}
+
+
+
   .col-md-6
-    %p
-      Claims to start at: #{@video.original_starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
-      Claims to end at: #{@video.original_ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')}
-
-    %hr
-    %p
-      Tag this event
-      %br
-      %small Navigate to a place in the video where a play happens, then find that play below, and tag it!
-
     %div(ng-controller='EventsCtrl' ng-init="init('#{@video.id}')")
 
-      %div(ng-show='!selectedEvent')
-        .form-group
-          %input.form-control(ng-model='query' ng-keydown='typing()')
+      %div(ng-show='!aligningVideo')
+        %p
+          Here's the current event stream near this video.
+          %br
+          %small.text-muted
+            - if @video.aligned?
+              Look incorrect?
+              %a(href='javascript:void(0);' ng-click='aligningVideo = true') Re-align it.
+            - else
+              Look right?
+              %a(href='javascript:void(0);' ng-click='alignWithoutEvent()') Mark it aligned.
+              Look wrong?
+              %a(href='javascript:void(0);' ng-click='aligningVideo = true') Align it.
 
-
-        %div(ng-repeat='event in events')
+        - for event in @video.events
+          %hr
           .pull-right
             %small.text-muted
-              {{event.kind}}, {{event.starts_at}}
-              %span(ng-if='event.ends_at') - {{event.ends_at}}
+              - secs = (event.starts_at - @video.starts_at).to_i
+              - if secs < 0
+                - secs *= -1
+                starts #{secs/60}:#{secs%60} before this clip
+              - else
+                #{secs/60}:#{secs%60} in this clip
 
           %p
-            {{event.title}}
-            %small
-              %a(ng-click='select(event)' href='javascript:void(0);') select
+            #{event.title}
 
-          %hr
 
-        .text-center
-          %a.btn.btn-default(ng-click='loadMore()') Show more
 
-      %div(ng-show='selectedEvent')
-        .pull-right
-          %small.text-muted
-            {{selectedEvent.kind}}, {{selectedEvent.starts_at}}
-            %span(ng-if='selectedEvent.ends_at') - {{selectedEvent.ends_at}}
+      %div(ng-show='aligningVideo')
 
         %p
-          {{selectedEvent.title}}
+          Align this video
+          %br
+          %small
+            Search for one single event (like a pass) by typing players names, then once
+            you've found a matching event, tell us exactly when it happens in this video.
+            Then the whole video will be aligned.
+            %a(href='javascript:void(0);' ng-click='aligningVideo = false') Go back to the event stream.
 
-        %p When does this play happen in the clip?
 
-        .form-group
-          %input.form-control(ng-model='minutesIntoClip' style='display: inline-block; width: 100px;' placeholder='min')
-          %input.form-control(ng-model='secondsIntoClip' style='display: inline-block; width: 100px;' placeholder='sec')
-          %a.btn.btn-default(ng-click='tagWithSelectedEvent()') Save
+        %div(ng-show='!selectedEvent')
+          .form-group
+            %input.form-control(ng-model='query' ng-keydown='typing()')
+
+
+          %div(ng-repeat='event in events')
+            .pull-right
+              %small.text-muted
+                {{event.kind}}, {{event.starts_at}}
+                %span(ng-if='event.ends_at') - {{event.ends_at}}
+
+            %p
+              {{event.title}}
+              %small
+                %a(ng-click='select(event)' href='javascript:void(0);') select
+
+            %hr
+
+          .text-center
+            %a.btn.btn-default(ng-click='loadMore()') Show more
+
+        %div(ng-show='selectedEvent')
+          %hr
+
+          .pull-right
+            %small.text-muted
+              {{selectedEvent.kind}}, {{selectedEvent.starts_at}}
+              %span(ng-if='selectedEvent.ends_at') - {{selectedEvent.ends_at}}
+
+          %p
+            {{selectedEvent.title}}
+            %small
+              %a(ng-click='clearSelection()' href='javascript:void(0);') cancel selection
+          %hr
+
+          %p When does this play happen in the clip?
+
+          %form(ng-submit='alignWithSelectedEvent()')
+            .form-group
+              %input.form-control(ng-model='minutesIntoClip' style='display: inline-block; width: 100px;' placeholder='min')
+              %input.form-control(ng-model='secondsIntoClip' style='display: inline-block; width: 100px;' placeholder='sec')
+              %button.btn.btn-default Save
 
