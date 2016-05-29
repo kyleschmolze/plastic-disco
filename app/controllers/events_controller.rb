@@ -6,11 +6,17 @@ class EventsController < ApplicationController
   end
 
   def search
-    @events = Event.with_query(params[:query])
-                   .includes(:videos).order('starts_at ASC').limit(100).offset(params[:offset] || 0)
+    if params[:require_video]
+      @events = Event.with_query(params[:query]).joins(:videos).group('events.id')
+                     .order('starts_at ASC').limit(100).offset(params[:offset] || 0)
+    else
+      @events = Event.with_query(params[:query])
+                     .includes(:videos).order('starts_at ASC').limit(100).offset(params[:offset] || 0)
+    end
   end
 
   def show
     @event = Event.find params[:id]
+    @videos = @event.videos
   end
 end

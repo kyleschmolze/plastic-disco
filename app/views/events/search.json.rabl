@@ -13,3 +13,11 @@ end
 node :ends_at do |event|
   event.ends_at.strftime('%l:%M:%S%p') if event.ends_at
 end
+
+node :starts_at_since_epoch do |event|
+  event.starts_at.to_i
+end
+
+node :ends_at_since_epoch do |event|
+  event.ends_at.to_i
+end

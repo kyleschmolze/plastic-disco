@@ -1,30 +1,32 @@
-- for video in @event.videos
-  .row
-    .col-md-6
-      .video-container
-        - if video.youtube_id.present?
-          = render 'videos/embed', video: video
-        - else
-          %iframe(src="https://docs.google.com/file/d/#{video.google_id}/preview" width="640" height="480")
-    .col-md-6
-      %p
-        ID: #{video.google_id} <br>
-        Title: #{video.title} <br>
-        Start time: #{video.starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
-        End time: #{video.ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
-        Duration: #{time_ago_in_words video.duration.seconds.ago} <br>
+%small= link_to '&laquo; All plays'.html_safe, events_path
+
+.page-header.text-center
+  %h1= @event.title
+  %p.lead= pluralize @videos.length, 'clip'
+
+.row
+  .col-md-8.col-md-offset-2
+
+    - @videos.each_with_index do |video, i|
+      - seek = (@event.starts_at - video.starts_at).to_i
 
       %hr
+      .pull-right
+        %small.text-muted
+          - if seek / 60 > 0
+            #{seek / 60} minutes,
+          #{seek % 60} seconds into this clip
+        
+      %p
+        #{@event.title}
+      %hr
 
-      - for event in video.events
-        %p
-          #{event.title}
-          %br
-          %small.text-muted
-            #{event.kind}, #{event.starts_at.strftime('%b %e, %l:%M:%S %p')}
-            - if event.ends_at
-              \- #{event.ends_at.strftime('%l:%M:%S %p')}
-            %br
-            #{(event.starts_at - video.starts_at).to_i} seconds into this clip
-
-  %hr
+      .video-container
+        - if video.youtube_id.present?
+          = render 'videos/embed', video: video, seek: seek
+        - else
+          %iframe(src="https://docs.google.com/file/d/#{video.google_id}/preview" width="640" height="480")
+      .text-right.help-text
+        %small= link_to 'explore this clip &raquo;'.html_safe, video_path(video)
+      %br
+      %br

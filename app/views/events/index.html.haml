@@ -6,6 +6,12 @@
 
     .form-group
       %input.form-control(ng-model='query' ng-keydown='typing()')
+      .help-text.text-right
+        .checkbox
+          %label
+            %input(type='checkbox' ng-model='requireVideo' ng-change='loadEvents()')
+            %small Only show plays with clips 
+
 
 
     %div(ng-repeat='event in events')
