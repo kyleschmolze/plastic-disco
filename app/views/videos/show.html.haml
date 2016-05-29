@@ -1,3 +1,4 @@
+%small= link_to '&laquo; All videos'.html_safe, videos_path
 .page-header.text-center
   %h1= @video.title
 .row
@@ -9,6 +10,12 @@
         %iframe(src="https://docs.google.com/file/d/#{@video.google_id}/preview" width="640" height="480")
 
     %br
+
+
+    - if @video.hidden?
+      .alert.alert-danger
+        This video is hidden.
+        = link_to 'Un-hide it.', video_path(@video, video: { hidden: false}), method: :put
 
     - if @video.aligned?
       .alert.alert-success
@@ -27,9 +34,14 @@
       %strong Video details
     %p
       Original file's start time: #{@video.original_starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
-      Original file's end time: #{@video.original_ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')}
+      Original file's end time: #{@video.original_ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
+      Original file's duration: #{@video.duration/60}m#{@video.duration%60}s
 
 
+    - if !@video.hidden?
+      %p
+        Is this video useless?
+        = link_to 'Hide it.', video_path(@video, video: { hidden: true}), method: :put
 
   .col-md-6
     %div(ng-controller='EventsCtrl' ng-init="init('#{@video.id}')")

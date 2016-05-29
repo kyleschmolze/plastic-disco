@@ -5,9 +5,8 @@ Rails.application.routes.draw do
     get :search, on: :collection
   end
 
-  resources :videos, only: [:index, :show] do
-    get :import, on: :collection
-    post :align, on: :member
+  resources :videos, only: [:index, :show, :update] do
+    post :align_to_event, on: :member
     post :unalign, on: :member
   end
 

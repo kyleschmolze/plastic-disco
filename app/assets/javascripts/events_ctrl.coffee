@@ -26,7 +26,7 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
     $scope.selectedEvent = null
 
   $scope.alignWithoutEvent = ->
-    $http.post "/videos/#{$scope.video_id}/align"
+    $http.put "/videos/#{$scope.video_id}", video: { aligned: true }
     .success (data) ->
       alert "Success! Refreshing the page now for review..."
       location.reload()
@@ -34,7 +34,8 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
       alert "Failure!"
 
   $scope.alignWithSelectedEvent = ->
-    $http.post "/videos/#{$scope.video_id}/align", { event_id: $scope.selectedEvent.id, seconds_into_clip: $scope.secondsIntoClip, minutes_into_clip: $scope.minutesIntoClip }
+    event.starts_at
+    $http.post "/videos/#{$scope.video_id}/align_to_event", { event_id: $scope.selectedEvent.id, seconds_into_clip: $scope.secondsIntoClip, minutes_into_clip: $scope.minutesIntoClip }
     .success (data) ->
       alert "Success! Refreshing the page now for review..."
       location.reload()

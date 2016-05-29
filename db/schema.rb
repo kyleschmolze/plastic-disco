@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529040657) do
+ActiveRecord::Schema.define(version: 20160529045702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20160529040657) do
     t.datetime "original_starts_at"
     t.datetime "original_ends_at"
     t.boolean  "aligned",            default: false
+    t.boolean  "hidden",             default: false
   end
 
   add_index "videos", ["ends_at"], name: "index_videos_on_ends_at", using: :btree

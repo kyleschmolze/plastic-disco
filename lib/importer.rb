@@ -35,7 +35,6 @@ class Importer
       for point in points
         our_score = point['summary']['score']['ours']
         their_score = point['summary']['score']['theirs']
-        duration = point['summary']['elapsedTime']
         point_start_time = beginning_of_time + point['startSeconds'].seconds
         point_end_time = beginning_of_time + point['endSeconds'].seconds
         line_type = point['summary']['lineType']
@@ -125,8 +124,11 @@ class Importer
     # assume that if duration is nil, it's not a video
     return if duration.blank?
 
+    #convert duration to seconds
+    duration /= 1000
+
     starts_at = file.api_file.createdDate
-    ends_at = starts_at + (duration.seconds / 1000)
+    ends_at = starts_at + duration.seconds
 
     user.videos.create! google_id: file.id,
                         width: file.api_file.videoMediaMetadata.width,

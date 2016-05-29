@@ -1,12 +1,13 @@
 class Video < ActiveRecord::Base
 
   belongs_to :user
-  has_and_belongs_to_many :events, order: 'events.starts_at ASC'
+  has_and_belongs_to_many :events, -> { order('events.starts_at ASC') }
 
   validates :user, presence: true
   validates :google_id, presence: true
 
   before_create :copy_original_timestamps
+  after_save :tag_events
 
   def tag_events
     starting_events = Event.where('starts_at >= ? AND starts_at <= ?', starts_at, ends_at)

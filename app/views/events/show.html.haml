@@ -12,7 +12,7 @@
         Title: #{video.title} <br>
         Start time: #{video.starts_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
         End time: #{video.ends_at.strftime('%a, %b %e, %l:%M:%S %p, %Y')} <br>
-        Duration: #{time_ago_in_words (video.duration/1000).seconds.ago} <br>
+        Duration: #{time_ago_in_words video.duration.seconds.ago} <br>
 
       %hr
 

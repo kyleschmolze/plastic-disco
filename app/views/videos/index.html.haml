@@ -17,10 +17,7 @@
 
       %td
         %small.text-muted
-          - if video.duration < 60000
-            #{(video.duration/1000).to_i}s
-          - else
-            #{(video.duration/60000).to_i}m
+          #{video.duration/60}m#{video.duration%60}s
 
       %td
         %small.text-muted
@@ -30,13 +27,17 @@
         %small.text-muted= video.youtube_id ? 'youtube' : 'drive'
 
       %td
-        - if video.aligned?
+        - if video.hidden?
+          %small.text-danger
+            %i.fa.fa-remove
+            Hidden
+        - elsif video.aligned?
           %small.text-success
             %i.fa.fa-check
             Aligned
         - else
-          %small.text-danger
-            %i.fa.fa-remove
+          %small.text-warning
+            %i.fa.fa-warning
             Not aligned
 
       %td.text-right
