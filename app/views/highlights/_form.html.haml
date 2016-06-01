@@ -1,0 +1,11 @@
+= simple_form_for(@highlight) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :video_id
+    = f.input :offset
+    = f.input :duration
+    = f.input :title
+
+  .form-actions
+    = f.button :submit

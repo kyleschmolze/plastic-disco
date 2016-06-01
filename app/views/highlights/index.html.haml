@@ -1,0 +1,27 @@
+%h1 Listing highlights
+
+%table
+  %thead
+    %tr
+      %th Video
+      %th Offset
+      %th Duration
+      %th Title
+      %th
+      %th
+      %th
+
+  %tbody
+    - @highlights.each do |highlight|
+      %tr
+        %td= highlight.video_id
+        %td= highlight.offset
+        %td= highlight.duration
+        %td= highlight.title
+        %td= link_to 'Show', highlight
+        %td= link_to 'Edit', edit_highlight_path(highlight)
+        %td= link_to 'Destroy', highlight, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Highlight', new_highlight_path

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :highlights
   resources :users
 
   resources :events, only: [:index, :show] do

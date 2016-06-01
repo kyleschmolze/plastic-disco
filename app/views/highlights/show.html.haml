@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Video:
+  = @highlight.video_id
+%p
+  %b Offset:
+  = @highlight.offset
+%p
+  %b Duration:
+  = @highlight.duration
+%p
+  %b Title:
+  = @highlight.title
+
+= link_to 'Edit', edit_highlight_path(@highlight)
+\|
+= link_to 'Back', highlights_path
