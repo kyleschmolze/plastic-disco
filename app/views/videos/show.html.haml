@@ -1,6 +1,9 @@
-%small= link_to '&laquo; All videos'.html_safe, videos_path
-.page-header.text-center
+.back-link
+  %small= link_to '&laquo; All videos'.html_safe, videos_path
+
+.page-header
   %h1= @video.title
+
 .row
   .col-md-8
     .video-container

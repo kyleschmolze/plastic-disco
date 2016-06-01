@@ -10,7 +10,7 @@
   .col-md-8.col-md-offset-2
 
     .form-group
-      %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search by game, player, date, anything')
+      %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search by game, player, date, anything' init-value-from-view)
       .help-text.text-right
         .checkbox
           %label
