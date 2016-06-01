@@ -1,4 +1,14 @@
-<% if (seek||=0) > 0 %>
+<% seek ||= 0 %>
+<% duration ||= 0 %>
+
+<% if seek > 0 and duration > 0 %>
+  <iframe id="player"
+          type="text/html"
+          width="640"
+          height="390"
+          src="https://www.youtube.com/embed/<%= video.youtube_id %>?start=<%= seek %>&end=<%= seek + duration %>&enablejsapi=1"
+          frameborder="0"></iframe>
+<% elsif seek > 0 %>
   <iframe id="player"
           type="text/html"
           width="640"

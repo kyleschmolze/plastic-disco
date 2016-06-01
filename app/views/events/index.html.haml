@@ -1,6 +1,10 @@
 .page-header
-  %h1.text-center
-    Browse
+  %h1 Search for clips
+  %p
+    %small
+      = link_to 'Highlights', highlights_path
+      \/
+      = link_to 'Video archive', videos_path
 
 .row(ng-controller='EventsCtrl' ng-cloak)
   .col-md-8.col-md-offset-2
@@ -11,7 +15,7 @@
         .checkbox
           %label
             %input(type='checkbox' ng-model='requireVideo' ng-change='loadEvents()')
-            %small Only show plays with clips 
+            %small Only show plays with videos
 
 
 
@@ -23,7 +27,7 @@
 
       %p
         %a(ng-href='/events/{{event.id}}') {{event.title}}
-        %small.text-muted {{event.video_count}} clips
+        %small.text-muted {{event.video_count}} {{ event.video_count == 1 ? 'video' : 'videos' }}
 
       %hr
 

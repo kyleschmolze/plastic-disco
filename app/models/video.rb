@@ -2,6 +2,7 @@ class Video < ActiveRecord::Base
 
   belongs_to :user
   has_and_belongs_to_many :events, -> { order('events.starts_at ASC') }
+  has_many :highlights, -> { order('created_at DESC') }
 
   validates :user, presence: true
   validates :google_id, presence: true

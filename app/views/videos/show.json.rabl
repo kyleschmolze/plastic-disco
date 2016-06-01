@@ -9,3 +9,7 @@ end
 node :ends_at_since_epoch do |video|
   video.ends_at.to_i
 end
+
+child :highlights do
+  attributes :id, :title, :offset, :duration
+end

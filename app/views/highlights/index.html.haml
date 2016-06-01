@@ -1,27 +1,18 @@
-%h1 Listing highlights
+.page-header
+  %h1 Classy Highlights
+  %p
+    %small
+      = link_to 'Search for clips', events_path
+      \/
+      = link_to 'Video archive', videos_path
 
-%table
-  %thead
-    %tr
-      %th Video
-      %th Offset
-      %th Duration
-      %th Title
-      %th
-      %th
-      %th
 
-  %tbody
-    - @highlights.each do |highlight|
-      %tr
-        %td= highlight.video_id
-        %td= highlight.offset
-        %td= highlight.duration
-        %td= highlight.title
-        %td= link_to 'Show', highlight
-        %td= link_to 'Edit', edit_highlight_path(highlight)
-        %td= link_to 'Destroy', highlight, :method => :delete, :data => { :confirm => 'Are you sure?' }
+.row
+  - for highlight in @highlights
+    .col-sm-4.text-center
+      %p
+        = link_to highlight_path(highlight) do
+          = image_tag highlight.video.thumbnail, class: 'img-responsive'
+      %p(style='min-height: 60px;')= link_to highlight.title, highlight_path(highlight)
 
-%br
-
-= link_to 'New Highlight', new_highlight_path
+= will_paginate @highlights, renderer: BootstrapPagination::Rails

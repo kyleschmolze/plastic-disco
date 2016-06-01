@@ -16,5 +16,5 @@ Rails.application.routes.draw do
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure'
 
-  root to: 'events#index'
+  root to: 'highlights#index'
 end

@@ -1,6 +1,12 @@
 .page-header.text-center
-  %h1 Videos
-  %p This archive is mostly used for re-aligning timestamps.
+  %h1 Video archive
+  %p
+    %small
+      = link_to 'Highlights', highlights_path
+      \/
+      = link_to 'Search for clips', events_path
+
+%p.text-center Use this archive to browse all footage and re-align timestamps.
 
 = will_paginate @videos, renderer: BootstrapPagination::Rails
 

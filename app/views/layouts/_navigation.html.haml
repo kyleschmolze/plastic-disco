@@ -7,9 +7,10 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to 'Home', events_path, class: 'navbar-brand'
+      = link_to 'Home', root_path, class: 'navbar-brand'
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
+        %li= link_to 'Browse', events_path
         %li= link_to 'All videos', videos_path
 
 

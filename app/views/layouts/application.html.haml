@@ -11,13 +11,18 @@
     
     = csrf_meta_tags
   %body(ng-app='classy-highlights')
-    %header
-      = render 'layouts/navigation'
+    -#
+      %header
+        = render 'layouts/navigation'
 
     .container= render 'layouts/messages'
     .container= yield
     %br
     %br
+    - if user_signed_in?
+      .container
+        .text-right
+          %small= link_to 'Sign out', signout_path
 
     <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>

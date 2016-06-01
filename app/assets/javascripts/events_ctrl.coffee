@@ -1,7 +1,7 @@
 angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http', ($scope, $http) ->
   $scope.init = (video_id) ->
     $scope.video_id = video_id
-    $http.get("/videos/#{video_id}").success (d) -> $scope.video = d
+    $http.get("/videos/#{video_id}.json").success (d) -> $scope.video = d
 
   $scope.loadEvents = ->
     params = { query: $scope.query }

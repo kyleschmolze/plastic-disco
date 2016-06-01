@@ -4,7 +4,7 @@ class HighlightsController < ApplicationController
   # GET /highlights
   # GET /highlights.json
   def index
-    @highlights = Highlight.all
+    @highlights = Highlight.order('created_at DESC').paginate(page: params[:page], per_page: 100)
   end
 
   # GET /highlights/1
@@ -32,7 +32,7 @@ class HighlightsController < ApplicationController
         format.json { render :show, status: :created, location: @highlight }
       else
         format.html { render :new }
-        format.json { render json: @highlight.errors, status: :unprocessable_entity }
+        format.json { render json: @highlight.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end
@@ -46,7 +46,7 @@ class HighlightsController < ApplicationController
         format.json { render :show, status: :ok, location: @highlight }
       else
         format.html { render :edit }
-        format.json { render json: @highlight.errors, status: :unprocessable_entity }
+        format.json { render json: @highlight.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end
@@ -69,6 +69,6 @@ class HighlightsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def highlight_params
-      params.require(:highlight).permit(:video_id, :offset, :duration, :title)
+      params.fetch(:highlight, {}).permit(:video_id, :offset, :duration, :title)
     end
 end
