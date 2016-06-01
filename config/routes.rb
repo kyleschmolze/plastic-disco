@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :videos, only: [:index, :show, :update] do
     post :align_to_event, on: :member
     post :unalign, on: :member
+    post :offset, on: :member
   end
 
   get '/auth/:provider/callback' => 'sessions#create'

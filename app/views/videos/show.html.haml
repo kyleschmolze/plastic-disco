@@ -91,10 +91,13 @@
             Search for one single event (like a pass) by typing players names, then once
             you've found a matching event, tell us exactly when it happens in this video.
             Then the whole video will be aligned.
-            %a(href='javascript:void(0);' ng-click='aligningVideo = false') Go back to the event stream.
+            %br
+            %a(href='javascript:void(0);' ng-click='settingOffset = true') Set offset directly
+            \/
+            %a(href='javascript:void(0);' ng-click='aligningVideo = false') Cancel
 
 
-        %div(ng-show='!selectedEvent')
+        %div(ng-show='!selectedEvent && !settingOffset')
           .form-group
             %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search here')
 
@@ -116,7 +119,7 @@
           .text-center
             %a.btn.btn-default(ng-click='loadMore()') Show more
 
-        %div(ng-show='selectedEvent')
+        %div(ng-show='selectedEvent && !settingOffset')
           %hr
 
           .pull-right
@@ -134,7 +137,17 @@
 
           %form(ng-submit='alignWithSelectedEvent()')
             .form-group
-              %input.form-control(ng-model='minutesIntoClip' style='display: inline-block; width: 100px;' placeholder='min')
-              %input.form-control(ng-model='secondsIntoClip' style='display: inline-block; width: 100px;' placeholder='sec')
+              %input.form-control(ng-model='minutesIntoClip' style='display: inline-block; width: 100px;' placeholder='min' type='number')
+              %input.form-control(ng-model='secondsIntoClip' style='display: inline-block; width: 100px;' placeholder='sec' type='number')
               %button.btn.btn-default Save
+
+        %div(ng-show='settingOffset')
+          %form(ng-submit='saveOffset()')
+            .form-group
+              %p Enter the number of seconds to offset this video from it's <em>original start time</em>. Negative numbers move it backwards.
+              %input.form-control(ng-model='offset' required type='number')
+
+            .form-group
+              %button.btn.btn-default Save
+
 

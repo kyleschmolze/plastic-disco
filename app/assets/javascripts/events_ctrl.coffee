@@ -53,4 +53,13 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
       location.reload()
     .error (data) ->
       alert "Failure! Did you input seconds and minutes?"
+
+  $scope.saveOffset = ->
+    $http.post "/videos/#{$scope.video_id}/offset.json", offset: $scope.offset
+    .success (data) ->
+      alert "Success! Refreshing the page now for review..."
+      location.reload()
+    .error ->
+      alert "Failure!"
+
 ]

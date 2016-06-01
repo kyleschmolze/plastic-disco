@@ -26,6 +26,24 @@ class VideosController < ApplicationController
     end
   end
 
+  def offset
+    @video = Video.find params[:id]
+    @video.starts_at = @video.original_starts_at + params[:offset].to_i.seconds
+    @video.ends_at = @video.original_ends_at + params[:offset].to_i.seconds
+    @video.aligned = true
+    if @video.save
+      respond_to do |format|
+        format.html { redirect_to video_path(@video) }
+        format.json { render json: { success: 1 }, status: 202 }
+      end
+    else
+      respond_to do |format|
+        format.html { render :show }
+        format.json { render json: { success: 0 }, status: 400 }
+      end
+    end
+  end
+
   def align_to_event
     @video = Video.find params[:id]
     @event = Event.find params[:event_id]
