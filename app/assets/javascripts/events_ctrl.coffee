@@ -3,8 +3,10 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
     $scope.video_id = video_id
     $http.get("/videos/#{video_id}.json").success (d) -> $scope.video = d
 
+  $scope.sort = 'desc'
+
   $scope.loadEvents = ->
-    params = { query: $scope.query }
+    params = { query: $scope.query, sort: $scope.sort }
     if $scope.requireVideo
       params.require_video = true
     $http.get '/events/search.json', params: params
@@ -13,7 +15,7 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
       $scope.events = data
 
   $scope.loadMore = ->
-    params = { query: $scope.query, offset: $scope.events.length }
+    params = { query: $scope.query, offset: $scope.events.lengt, sort: $scope.sort  }
     if $scope.requireVideo
       params.require_video = true
     $http.get '/events/search.json', params: params

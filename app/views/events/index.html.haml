@@ -4,6 +4,8 @@
     %small
       = link_to 'Highlights', highlights_path
       \/
+      %span.text-muted Search for clips
+      \/
       = link_to 'Video archive', videos_path
 
 .row(ng-controller='EventsCtrl' ng-cloak)
@@ -11,11 +13,22 @@
 
     .form-group
       %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search by game, player, date, anything' init-value-from-view)
-      .help-text.text-right
-        .checkbox
-          %label
-            %input(type='checkbox' ng-model='requireVideo' ng-change='loadEvents()')
-            %small Only show plays with videos
+      .row.help-block.form-inline
+        .col-md-6
+          .radio
+            %label
+              %input(type='radio' name='sort' ng-model='sort' value='desc' ng-change='loadEvents()')
+              %small Most recent first
+          &nbsp;
+          .radio
+            %label
+              %input(type='radio' name='sort' ng-model='sort' value='asc' ng-change='loadEvents()')
+              %small Oldest first
+        .col-md-6.text-right
+          .checkbox
+            %label
+              %input(type='checkbox' ng-model='requireVideo' ng-change='loadEvents()')
+              %small Only show plays with videos
 
 
 
