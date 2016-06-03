@@ -15,7 +15,7 @@
     %tr
       %td
         = link_to video_path(video) do
-          = image_tag video.thumbnail, style: 'height: 50px;'
+          = image_tag video.thumbnail, style: 'height: 50px;', alt: "Video #{video.id}"
       %td
         = link_to video_path(video) do
           = video.title
