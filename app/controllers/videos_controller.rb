@@ -1,6 +1,6 @@
 class VideosController < ApplicationController
   def index
-    @videos = Video.includes(:events).order('starts_at ASC').paginate(page: params[:page], per_page: 100)
+    @videos = Video.includes(:events).order('title ASC').paginate(page: params[:page], per_page: 100)
   end
 
   def show
