@@ -31,31 +31,34 @@
           #{video.events.length} events
 
       %td
-        %small.text-muted= video.youtube_id ? 'youtube' : 'drive'
-
-      %td
         - if video.hidden?
           %small.text-danger
             %i.fa.fa-remove
             Hidden
-        - elsif video.starts_at == video.original_starts_at
-          %small.text-success
-            %i.fa.fa-check
-            On time
-        - else
-          - offset = video.starts_at.to_i - video.original_starts_at.to_i
+        - elsif video.starts_at.blank?
           %small.text-warning
             %i.fa.fa-warning
+            Not synced
+        - elsif video.aligned?
+          %small.text-success
+            %i.fa.fa-check
+            Aligned
+            - offset = video.starts_at.to_i - video.original_starts_at.to_i
             - if offset > 0
-              #{offset/60}m#{offset%60}s ahead
+              (#{offset/60}m#{offset%60}s ahead)
             - else
               - offset *= -1
-              #{offset/60}m#{offset%60}s behind
+              (#{offset/60}m#{offset%60}s behind)
+        - else
+          %small.text-warning
+            %i.fa.fa-warning
+            Using original sync
 
       %td.text-right
-        %small.text-muted
-          #{video.starts_at.strftime('%b %e, %l:%M:%S %p')} -
-          #{video.ends_at.strftime('%l:%M:%S %p')}
+        - if video.starts_at
+          %small.text-muted
+            #{video.starts_at.strftime('%b %e, %l:%M:%S %p')} -
+            #{video.ends_at.strftime('%l:%M:%S %p')}
 
 
 = will_paginate @videos, renderer: BootstrapPagination::Rails

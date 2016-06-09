@@ -176,4 +176,48 @@ class Importer
     puts "--------------------"
     puts "Drive-only titles: #{drive_only_titles}"
   end
+
+  def import_youtube_videos
+    # TODO store user's channel_id in user model
+    youtube_channel_id = 'UCjCcPCvxpSsvHNmgC3SNUZQ'
+    # when you ask for all of the user's videos, Youtube seems to return a semi-random 
+    # number of results. I've tried this many times. However, if the user has a playlist,
+    # then it's always correct. For this reason we're using an "All videos" playlist,
+    # which has to be manually managed for all new videos.
+    seen_titles = []
+    matched_titles = []
+    new_titles = []
+
+    channel = Yt::Channel.new id:  youtube_channel_id
+    playlist = channel.playlists.find{|p| p.title.match /all/i }
+    for item in playlist.playlist_items
+      next if item.title == 'Deleted video'
+      next if item.title == 'Private video'
+    
+      seen_titles << item.title
+      youtube_id = item.video_id
+      thumbnail = item.snippet.thumbnails['high']['url'] rescue nil
+
+      if existing_video = Video.find_by_youtube_id(item.video_id)
+        existing_video.update_column :thumbnail, thumbnail if thumbnail != existing_video.thumbnail
+        existing_video.update_column :youtube_id, youtube_id if youtube_id != existing_video.youtube_id
+        matched_titles << item.title
+      else
+        new_titles << item.title
+        # importing new video via youtube playlist item
+        video = Yt::Video.new id: item.video_id
+        user.videos.create! youtube_id: item.video_id,
+                            thumbnail: thumbnail,
+                            duration: video.duration,
+                            title: item.title
+      end
+    end
+
+    puts "All seen titles: #{seen_titles.join(', ')}"
+    puts "--------------------"
+    puts "All matched titles: #{matched_titles.join(', ')}"
+    puts "--------------------"
+    puts "All new titles: #{new_titles.join(', ')}"
+  end
+
 end

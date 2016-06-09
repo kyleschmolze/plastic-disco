@@ -56,7 +56,6 @@ class VideosController < ApplicationController
       @video.ends_at = @video.starts_at + @video.duration.seconds
       @video.aligned = true
       @video.save
-      @video.tag_events
       render json: { success: 1 }, status: 201
     end
   end
@@ -66,7 +65,6 @@ class VideosController < ApplicationController
     @video.starts_at = @video.original_starts_at
     @video.ends_at = @video.original_ends_at
     @video.aligned = false
-    @video.tag_events
     @video.save
     redirect_to video_path(@video)
   end

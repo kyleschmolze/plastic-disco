@@ -5,12 +5,13 @@ class Video < ActiveRecord::Base
   has_many :highlights, -> { order('created_at DESC') }
 
   validates :user, presence: true
-  validates :google_id, presence: true
+  validates :starts_at, presence: true, if: :aligned?
 
   before_create :copy_original_timestamps
   after_save :tag_events
 
   def tag_events
+    return unless starts_at && ends_at
     starting_events = Event.where('starts_at >= ? AND starts_at <= ?', starts_at, ends_at)
     ending_events = Event.where('ends_at >= ? AND ends_at <= ?', starts_at, ends_at)
     surrounding_events = Event.where('starts_at <= ? AND ends_at >= ?', starts_at, ends_at)
