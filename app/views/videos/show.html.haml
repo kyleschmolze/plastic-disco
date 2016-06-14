@@ -53,7 +53,7 @@
 
   .col-md-4
     - if current_user and @video.user_id == current_user.id
-      %div(ng-controller='EventsCtrl' ng-init="init('#{@video.id}')")
+      %div(ng-controller='EventsCtrl' ng-init="init('#{@video.id}', { sort: 'asc' })")
 
         %div(ng-show='!aligningVideo')
           %p

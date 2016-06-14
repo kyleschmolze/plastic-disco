@@ -6,9 +6,6 @@ class Importer
   end
 
   def import_events
-    # first, destroy their existing events
-    user.events.destroy_all
-
     # most of the integer timestamps are stored as seconds since Jan 1, 2001!
     beginning_of_time = Date.parse("Jan 1 2001 UTC").beginning_of_day - 9.hours
 

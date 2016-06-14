@@ -1,11 +1,14 @@
 angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http', ($scope, $http) ->
-  $scope.init = (video_id) ->
-    $scope.video_id = video_id
-    $http.get("/videos/#{video_id}.json").success (d) -> $scope.video = d
-
   $scope.sort = 'desc'
 
+  $scope.init = (video_id, options = {}) ->
+    $scope.video_id = video_id
+    $http.get("/videos/#{video_id}.json").success (d) -> $scope.video = d
+    $scope.sort = options.sort if options.sort?
+    $scope.loadEvents()
+
   $scope.loadEvents = ->
+    console.log $scope.sort
     params = { query: $scope.query, sort: $scope.sort }
     if $scope.requireVideo
       params.require_video = true
@@ -23,8 +26,6 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
       $scope.events = $scope.events.concat data
 
   $scope.typing = _.debounce $scope.loadEvents, 200
-
-  $scope.loadEvents()
 
   $scope.seekTo = (event) ->
     loc = event.starts_at_since_epoch - video.starts_at_since_epoch

@@ -7,6 +7,8 @@ class Event < ActiveRecord::Base
   validates :kind, presence: true
   validates :starts_at, presence: true
 
+  validates :title, uniqueness: { scope: [:kind, :starts_at, :ends_at] }
+  
   def self.with_query(query)
     words = query.to_s.split.map(&:strip).select(&:present?)
     return Event.all if words.blank?
