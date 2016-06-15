@@ -32,18 +32,19 @@
 
 
 
-    %div(ng-repeat='event in events')
-      .pull-right
-        %small.text-muted
-          {{event.kind}}, {{event.starts_at}}
-          %span(ng-if='event.ends_at') - {{event.ends_at}}
+    .event-list(ng-class='loading ? "transparent" : ""')
+      %div(ng-repeat='event in events')
+        .pull-right
+          %small.text-muted
+            {{event.kind}}, {{event.starts_at}}
+            %span(ng-if='event.ends_at') - {{event.ends_at}}
 
-      %p
-        %a(ng-href='/events/{{event.id}}') {{event.title}}
-        %small.text-muted {{event.video_count}} {{ event.video_count == 1 ? 'video' : 'videos' }}
+        %p
+          %a(ng-href='/events/{{event.id}}') {{event.title}}
+          %small.text-muted {{event.video_count}} {{ event.video_count == 1 ? 'video' : 'videos' }}
 
-      %hr
+        %hr
 
-    .text-center
-      %a.btn.btn-default(ng-click='loadMore()') Show more
+      .text-center
+        %a.btn.btn-default(ng-click='loadMore()') Show more
 

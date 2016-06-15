@@ -1,21 +1,15 @@
 angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http', ($scope, $http) ->
   $scope.sort = 'desc'
 
-  $scope.init = (video_id, options = {}) ->
-    $scope.video_id = video_id
-    $http.get("/videos/#{video_id}.json").success (d) -> $scope.video = d
-    $scope.sort = options.sort if options.sort?
-    $scope.loadEvents()
-
   $scope.loadEvents = ->
-    console.log $scope.sort
+    $scope.loading = true
     params = { query: $scope.query, sort: $scope.sort }
     if $scope.requireVideo
       params.require_video = true
     $http.get '/events/search.json', params: params
     .success (data) ->
-      console.log data
       $scope.events = data
+      $scope.loading = false
 
   $scope.loadMore = ->
     params = { query: $scope.query, offset: $scope.events.lengt, sort: $scope.sort  }
@@ -64,5 +58,14 @@ angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http',
       location.reload()
     .error ->
       alert "Failure!"
+
+  $scope.init = (video_id, options = {}) ->
+    # only videos#show uses the init function
+    $scope.video_id = video_id
+    $http.get("/videos/#{video_id}.json").success (d) -> $scope.video = d
+    $scope.sort = options.sort if options.sort?
+    $scope.loadEvents()
+
+  $scope.loadEvents()
 
 ]

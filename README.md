@@ -1,13 +1,36 @@
-Classy Highlights
-================
+#Game footage + UltiAnalytics = ?!?!
+
+This app was built to help you capture every moment of every game, and then give you the ability to actually go find those moments in the footage. Having lots of footage is really great, until you have to comb through hours to figure out when everything happened. If you use the [UltiAnalytics](http://ultianalytics.com) app to track each game, then we can sync that data into the app and line it up with your videos. Bam.
+
+### A note on timestamps
+The original intention was to use the timestamps from video files in order to automatically sync up the video to the timestamps from UltiAnalytics. However, this doesn't seem to work too well (clocks can be off), and so I ended up manually syncing each video anyways. Because of that, I think that this app will be much easier to maintain and use in the long run if all videos are just manually synced (it only takes about 30 seconds per video to do it, so just take long videos).
+
+
+### How it works
+First, we import all of the "event" data from UltiAnalytics using their API. (Ideally, this would be configurable on a per-user basis, it's hard-coded right now.) This creates a bunch of `Event` objects in our database with timestamps and titles (which are just strings that describe the event, like someone catching a goal).
+
+Then, the user simply uploads their videos onto YouTube, then adds them to a playlist. We bulk-import the videos of that playlist, and save them as `Video`s on our end. Then, the user hops into the app, and manually syncs up each video's timestamps (`starts_at` and `ends_at`) with the `Event` data (you only need to sync a single event for each video, because if you have the time correct on that, the rest will also be correct).
+
 
 
 ## Requirements
 
 - Ruby 2.1.6
 - Rails 4.2.4
+- Bundler
 
-## Setup
+### Setup
+
+```
+git clone https://github.com/kyletns/classy-highlights.git
+cd classy-highlights
+bundle install
+```
+
+
+
+Since the app only uses Google Oauth, you'll need to 
+
 Clone and bundle, then create a file called `.env` which looks like this:
 
 ```
@@ -25,11 +48,13 @@ rake db:create
 rake db:migrate
 ```
 
-Then run the server with `puma`, and head to `localhost:3000` to see it go up! You should be able to log in using Google Oauth, which will create a User in your database. You're up and running!
+Then run the server with `rails server`, and head to `localhost:3000` to see it! You should be able to log in using Google Oauth, which will create a User in your database. You're up and running!
 
 ## Where is all the data coming from?
 
 Ok, so it's kind of crazy. My apologies. But it works, and it's free :D
+
+### Huh?
 
 First, we import event data directly from Ultianalytics. We save a copy of everything into our Event model, where the `kind` column can be one of `["Game", "Point", "Play"]`. We get timestamps for each one, which go into the `starts_at` and `ends_at` columns (plays don't have end times, though, they just happen at a specific moment).
 
