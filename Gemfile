@@ -9,9 +9,11 @@ gem 'jbuilder', '~> 2.0'
 gem 'httparty'
 gem 'yt'
 gem 'rabl'
+
 group :development, :test do
   gem 'dotenv-rails'
   gem 'byebug'
+  gem 'seed_dump'
 end
 group :development do
   gem 'web-console', '~> 2.0'

@@ -139,6 +139,11 @@ class Importer
   end
 
   def import_youtube_video_ids
+    # This function searches for existing videos in the database within the youtube playlist.
+    # If it finds a video with the same title as one on file, it will copy that youtube video's
+    # "youtube_id" which is what we need in order to stream the video.
+    # If you want to create new video objects from youtube videos, use import_youtube_videos below.
+
     # TODO store user's channel_id in user model
     youtube_channel_id = 'UCjCcPCvxpSsvHNmgC3SNUZQ'
     # when you ask for all of the user's videos, Youtube seems to return a semi-random 
@@ -175,6 +180,10 @@ class Importer
   end
 
   def import_youtube_videos
+    # This function imports videos from youtube. It creates new video objects,
+    # which won't have their timestamps set initially, cause youtube doesn't tell us that info.
+    # If you want to update existing videos with their youtube_ids, use import_youtube_video_ids above.
+
     # TODO store user's channel_id in user model
     youtube_channel_id = 'UCjCcPCvxpSsvHNmgC3SNUZQ'
     # when you ask for all of the user's videos, Youtube seems to return a semi-random 

@@ -16,6 +16,7 @@
 /vendor/ruby/
 
 # minimal Rails specific artifacts
+db/backups/
 db/*.sqlite3
 /db/*.sqlite3-journal
 /log/*
