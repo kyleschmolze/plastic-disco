@@ -25,8 +25,8 @@ The original intention was to use the timestamps from video files in order to au
 ### Setup
 
 ```
-git clone https://github.com/kyletns/classy-highlights.git
-cd classy-highlights
+git clone https://github.com/kyletns/plastic-disco.git
+cd plastic-disco
 bundle install
 ```
 
