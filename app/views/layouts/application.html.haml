@@ -19,10 +19,12 @@
     .container= yield
     %br
     %br
-    - if user_signed_in?
-      .container
-        .text-right
+    .container
+      .text-right
+        - if user_signed_in?
           %small= link_to 'Sign out', signout_path
+        - else
+          %small= link_to 'Sign in', signin_path
         %br
 
     <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
