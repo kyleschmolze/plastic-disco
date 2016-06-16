@@ -1,4 +1,4 @@
-angular.module('classy-highlights').controller 'VideoPlayerCtrl', ['$scope', '$http', '$element', ($scope, $http, $element) ->
+angular.module('plastic-disco').controller 'VideoPlayerCtrl', ['$scope', '$http', '$element', ($scope, $http, $element) ->
   $scope.highlight = {}
 
   $scope.init = (video_id) ->

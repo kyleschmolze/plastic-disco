@@ -15,13 +15,13 @@
 //= require_self
 //= require_tree .
 
-angular.module('classy-highlights', []);
+angular.module('plastic-disco', []);
 
 // some simple code I got off the interwebs to retain form
 // values when the back button is used, if you add 
 // < app-init-from-view > to the tag.
 // http://jsfiddle.net/tchatel/a8674/
-angular.module('classy-highlights').directive('initValueFromView', ['$parse', function($parse) {
+angular.module('plastic-disco').directive('initValueFromView', ['$parse', function($parse) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {

@@ -1,4 +1,4 @@
-angular.module('classy-highlights').controller 'EventsCtrl', ['$scope', '$http', ($scope, $http) ->
+angular.module('plastic-disco').controller 'EventsCtrl', ['$scope', '$http', ($scope, $http) ->
   $scope.sort = 'desc'
 
   $scope.loadEvents = ->

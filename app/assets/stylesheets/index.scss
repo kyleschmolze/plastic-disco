@@ -50,3 +50,11 @@ a, a:hover { color: #2F80ED; }
   -webkit-transition: opacity .1s ease-in-out;
 }
 .event-list.transparent { opacity: 0.6; }
+
+.disco-ball {
+  height: 72px;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -ms-border-radius: 10px;
+}
