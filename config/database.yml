@@ -16,9 +16,9 @@ development:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: classy_highlights_development
+  database: plastic_disco_development
   pool:     5
-  #username: classy_highlights
+  #username: plastic_disco
   password:
   template: template0
 
@@ -44,9 +44,9 @@ test:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: classy_highlights_test
+  database: plastic_disco_test
   pool:     5
-  username: classy_highlights
+  username: plastic_disco
   password:
   template: template0
 
@@ -54,8 +54,8 @@ production:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: classy_highlights_production
+  database: plastic_disco_production
   pool:     5
-  username: classy_highlights
+  username: plastic_disco
   password:
   template: template0
