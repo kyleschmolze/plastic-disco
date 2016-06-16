@@ -1,4 +1,6 @@
-# Game footage + UltiAnalytics = ?!?!
+What do you get when you combine footage of ultimate frisbee games with the data from the UltiAnalytics apps?
+
+# It's a Plastic Disco, Baby!
 
 This app was built to help you capture every moment of every game, and then give you the ability to actually go find those moments in the footage. Having lots of footage is really great, until you have to comb through hours to figure out when everything happened. If you use the [UltiAnalytics](http://ultianalytics.com) app to track each game, then we can sync that data into the app and line it up with your videos. Bam.
 
