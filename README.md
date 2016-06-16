@@ -2,15 +2,15 @@
 
 This app was built to help you capture every moment of every game, and then give you the ability to actually go find those moments in the footage. Having lots of footage is really great, until you have to comb through hours to figure out when everything happened. If you use the [UltiAnalytics](http://ultianalytics.com) app to track each game, then we can sync that data into the app and line it up with your videos. Bam.
 
-### A note on timestamps
-The original intention was to use the timestamps from video files in order to automatically sync up the video to the timestamps from UltiAnalytics. However, this doesn't seem to work too well (clocks can be off), and so I ended up manually syncing each video anyways. Because of that, I think that this app will be much easier to maintain and use in the long run if all videos are just manually synced (it only takes about 30 seconds per video to do it, so just take long videos).
 
-
-### How it works
+### Quick overview
 First, we import all of the "event" data from UltiAnalytics using their API. (Ideally, this would be configurable on a per-user basis, it's hard-coded right now.) This creates a bunch of `Event` objects in our database with timestamps and titles (which are just strings that describe the event, like someone catching a goal).
 
 Then, the user simply uploads their videos onto youtube, then adds them to a playlist. We bulk-import the videos of that playlist, and save them as `Video`s on our end. Then, the user hops into the app, and manually syncs up each video's timestamps (`starts_at` and `ends_at`) with the `Event` data (you only need to sync a single event for each video, because if you have the time correct on that, the rest will also be correct).
 
+
+### A note on timestamps
+The original intention was to use the timestamps from video files in order to automatically sync up the video to the timestamps from UltiAnalytics. However, this doesn't seem to work too well (clocks can be off), and so I ended up manually syncing each video anyways. Because of that, I think that this app will be much easier to maintain and use in the long run if all videos are just manually synced (it only takes about 30 seconds per video to do it, so just take long videos).
 
 
 ## Requirements
@@ -57,7 +57,7 @@ The live values for these keys on the server come from the [Google API Console](
 If you don't have access to the Classy Gmail account, you'll need to setup your own API keys. There's a great guide to that in the Yt gem documentation [here](https://github.com/Fullscreen/yt#configuring-your-app).
 
 
-### Google Photos, Google Drive, youtube?
+### Importing data
 
 I was originally hoping that timestamps from the video files would be accurate enough to automatically sync everything up. While this is technically possible, it doesn't seem to be working too great so far. So I've been using a shortcut which ignores the timestamps, which I'll explain below.
 
@@ -111,6 +111,12 @@ importer.import_youtube_video_ids
 And then you'll be able to stream the videos through youtube instead of Drive! Yay! However, your timestamps probably won't be perfect, and will need to be tweaked anyways, which is why you should really just upload directly to youtube and manually sync each video. It's really not that hard.
 
 
-#### License
+### License
 
 This project is licensed under the [MIT License](LICENSE.txt).
+
+### Contributing
+
+Contributors welcome! "Watch" this repo to keep an eye on new Issues as they pop up, and I definitely hope that more coders from the Ultimate community help make this a super-bomb and usable app.
+
+I would suggest starting with a Github Issue to talk about what you want to add or help out with, or commenting on an existing one you want to work on, before you make a Pull Request.
