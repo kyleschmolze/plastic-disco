@@ -119,6 +119,4 @@ This project is licensed under the [MIT License](LICENSE.txt).
 
 ### Contributing
 
-Contributors welcome! "Watch" this repo to keep an eye on new Issues as they pop up, and I definitely hope that more coders from the Ultimate community help make this a super-bomb and usable app.
-
-I would suggest starting with a Github Issue to talk about what you want to add or help out with, or commenting on an existing one you want to work on, before you make a Pull Request.
+Contributors welcome! "Watch" this repo to keep an eye on new Issues as they pop up, and I definitely hope that more coders from the Ultimate community help make this a super-bomb and usable app. Feel free to email me directly at kyletns (at) gmail!
