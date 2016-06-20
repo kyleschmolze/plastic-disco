@@ -8,32 +8,32 @@
       \/
       = link_to 'Video archive', videos_path
 
-.row(ng-controller='EventsCtrl' ng-cloak)
+.row(ng-controller='EventsCtrl as eventsCtrl' ng-cloak)
   .col-md-8.col-md-offset-2
 
     .form-group
-      %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search by game, player, date, anything' init-value-from-view)
+      %input.form-control(ng-model='eventsCtrl.query' ng-keydown='eventsCtrl.typing()' placeholder='Search by game, player, date, anything' init-value-from-view)
       .row.help-block.form-inline
         .col-md-6
           .radio
             %label
-              %input(type='radio' name='sort' ng-model='sort' value='desc' ng-change='loadEvents()')
+              %input(type='radio' name='sort' ng-model='eventsCtrl.sort' value='desc' ng-change='eventsCtrl.loadEvents()')
               %small Most recent first
           &nbsp;
           .radio
             %label
-              %input(type='radio' name='sort' ng-model='sort' value='asc' ng-change='loadEvents()')
+              %input(type='radio' name='sort' ng-model='eventsCtrl.sort' value='asc' ng-change='eventsCtrl.loadEvents()')
               %small Oldest first
         .col-md-6.text-right
           .checkbox
             %label
-              %input(type='checkbox' ng-model='requireVideo' ng-change='loadEvents()')
+              %input(type='checkbox' ng-model='eventsCtrl.requireVideo' ng-change='eventsCtrl.loadEvents()')
               %small Only show plays with videos
 
 
 
     .event-list(ng-class='loading ? "transparent" : ""')
-      %div(ng-repeat='event in events')
+      %div(ng-repeat='event in eventsCtrl.events')
         .pull-right
           %small.text-muted
             {{event.kind}}, {{event.starts_at}}
@@ -46,5 +46,5 @@
         %hr
 
       .text-center
-        %a.btn.btn-default(ng-click='loadMore()') Show more
+        %a.btn.btn-default(ng-click='eventsCtrl.loadMore()') Show more
 

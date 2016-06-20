@@ -26,7 +26,7 @@
           %i.fa.fa-check
           This video has been manually aligned.
           %small= link_to 'remove alignment', unalign_video_path(@video), method: :post
-      
+
 
         %p
           %strong Manually aligned timestamps
@@ -53,22 +53,22 @@
 
   .col-md-4
     - if current_user and @video.user_id == current_user.id
-      %div(ng-controller='EventsCtrl' ng-init="init('#{@video.id}', { sort: 'asc' })")
+      %div(ng-controller='EventsCtrl as eventsCtrl' ng-init="eventsCtrl.init('#{@video.id}', { sort: 'asc' })")
 
-        %div(ng-show='!aligningVideo')
+        %div(ng-show='!eventsCtrl.aligningVideo')
           %p
             Here's the current event stream near this video.
             %br
             %small.text-muted
               - if @video.aligned?
                 Look incorrect?
-                %a(href='javascript:void(0);' ng-click='aligningVideo = true') Re-align it.
+                %a(href='javascript:void(0);' ng-click='eventsCtrl.aligningVideo = true') Re-align it.
               - else
                 - if @video.starts_at
                   Look right?
-                  %a(href='javascript:void(0);' ng-click='alignWithoutEvent()') Mark it as aligned.
+                  %a(href='javascript:void(0);' ng-click='eventsCtrl.alignWithoutEvent()') Mark it as aligned.
                 Look wrong?
-                %a(href='javascript:void(0);' ng-click='aligningVideo = true') Align it.
+                %a(href='javascript:void(0);' ng-click='eventsCtrl.aligningVideo = true') Align it.
 
           - if @video.events.blank?
             %hr
@@ -89,7 +89,7 @@
 
 
 
-        %div(ng-show='aligningVideo')
+        %div(ng-show='eventsCtrl.aligningVideo')
 
           %p
             Align this video
@@ -99,20 +99,20 @@
               you've found a matching event, tell us exactly when it happens in this video.
               Then the whole video will be aligned.
               %br
-              %a(href='javascript:void(0);' ng-click='settingOffset = true') Set offset directly
+              %a(href='javascript:void(0);' ng-click='eventsCtrl.settingOffset = true') Set offset directly
               \/
-              %a(href='javascript:void(0);' ng-click='aligningVideo = false') Cancel
+              %a(href='javascript:void(0);' ng-click='eventsCtrl.aligningVideo = false; eventsCtrl.settingOffset = false') Cancel
 
 
-          %div(ng-show='!selectedEvent && !settingOffset')
+          %div(ng-show='!eventsCtrl.selectedEvent && !eventsCtrl.settingOffset')
             .form-group
-              %input.form-control(ng-model='query' ng-keydown='typing()' placeholder='Search here')
+              %input.form-control(ng-model='eventsCtrl.query' ng-keydown='eventsCtrl.typing()' placeholder='Search here')
 
 
-            %div(ng-repeat='event in events')
+            %div(ng-repeat='event in eventsCtrl.events')
               .pull-right
                 %small
-                  %a(ng-click='select(event)' href='javascript:void(0);') select
+                  %a(ng-click='eventsCtrl.select(event)' href='javascript:void(0);') select
 
               %p
                 {{event.title}}
@@ -124,35 +124,35 @@
               %hr
 
             .text-center
-              %a.btn.btn-default(ng-click='loadMore()') Show more
+              %a.btn.btn-default(ng-click='eventsCtrl.loadMore()') Show more
 
-          %div(ng-show='selectedEvent && !settingOffset')
+          %div(ng-show='eventsCtrl.selectedEvent && !eventsCtrl.settingOffset')
             %hr
 
             .pull-right
               %small.text-muted
-                {{selectedEvent.kind}}, {{selectedEvent.starts_at}}
-                %span(ng-if='selectedEvent.ends_at') - {{selectedEvent.ends_at}}
+                {{eventsCtrl.selectedEvent.kind}}, {{eventsCtrl.selectedEvent.starts_at}}
+                %span(ng-if='eventsCtrl.selectedEvent.ends_at') - {{eventsCtrl.selectedEvent.ends_at}}
 
             %p
-              {{selectedEvent.title}}
+              {{eventsCtrl.selectedEvent.title}}
               %small
-                %a(ng-click='clearSelection()' href='javascript:void(0);') cancel selection
+                %a(ng-click='eventsCtrl.clearSelection()' href='javascript:void(0);') cancel selection
             %hr
 
             %p When does this play happen in the clip?
 
-            %form(ng-submit='alignWithSelectedEvent()')
+            %form(ng-submit='eventsCtrl.alignWithSelectedEvent()')
               .form-group
-                %input.form-control(ng-model='minutesIntoClip' style='display: inline-block; width: 100px;' placeholder='min' type='number')
-                %input.form-control(ng-model='secondsIntoClip' style='display: inline-block; width: 100px;' placeholder='sec' type='number')
+                %input.form-control(ng-model='eventsCtrl.minutesIntoClip' style='display: inline-block; width: 100px;' placeholder='min' type='number')
+                %input.form-control(ng-model='eventsCtrl.secondsIntoClip' style='display: inline-block; width: 100px;' placeholder='sec' type='number')
                 %button.btn.btn-default Save
 
-          %div(ng-show='settingOffset')
-            %form(ng-submit='saveOffset()')
+          %div(ng-show='eventsCtrl.settingOffset')
+            %form(ng-submit='eventsCtrl.saveOffset()')
               .form-group
                 %p Enter the number of seconds to offset this video from it's <em>original start time</em>. Negative numbers move it backwards.
-                %input.form-control(ng-model='offset' required type='number')
+                %input.form-control(ng-model='eventsCtrl.offset' required type='number')
 
               .form-group
                 %button.btn.btn-default Save

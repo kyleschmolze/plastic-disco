@@ -17,12 +17,12 @@
           - if seek / 60 > 0
             #{seek / 60} minutes,
           #{seek % 60} seconds into this video
-        
+
       %p
         #{@event.title}
       %hr
 
-      .video(ng-controller='VideoPlayerCtrl' ng-init="init(#{video.id})")
+      .video(ng-controller='VideoPlayerCtrl as videoPlayerCtrl' ng-init="videoPlayerCtrl.init(#{video.id})")
         .form-group
           .video-container
             - if video.youtube_id.present?
@@ -33,35 +33,35 @@
           .col-sm-6
             %h3 Highlights in this video
             %p
-              %a(href='javascript:void(0);' ng-click='highlightFormVisible = !highlightFormVisible')
+              %a(href='javascript:void(0);' ng-click='videoPlayerCtrl.highlightFormVisible = !videoPlayerCtrl.highlightFormVisible')
                 %small add new highlight
 
-            %form(ng-show='highlightFormVisible' ng-submit='createHighlight()' ng-disabled='savingHighlight')
+            %form(ng-show='videoPlayerCtrl.highlightFormVisible' ng-submit='videoPlayerCtrl.createHighlight()' ng-disabled='videoPlayerCtrl.savingHighlight')
 
               .form-group
                 %p When should the highlight start?
-                %input.form-control(type='number' ng-model='highlight.startMinutes' style='display: inline-block; width: 100px;' placeholder='min')
-                %input.form-control(type='number' ng-model='highlight.startSeconds' style='display: inline-block; width: 100px;' placeholder='sec')
+                %input.form-control(type='number' ng-model='videoPlayerCtrl.highlight.startMinutes' style='display: inline-block; width: 100px;' placeholder='min')
+                %input.form-control(type='number' ng-model='videoPlayerCtrl.highlight.startSeconds' style='display: inline-block; width: 100px;' placeholder='sec')
 
               .form-group
                 %p When should the highlight end?
-                %input.form-control(type='number' ng-model='highlight.endMinutes' style='display: inline-block; width: 100px;' placeholder='min')
-                %input.form-control(type='number' ng-model='highlight.endSeconds' style='display: inline-block; width: 100px;' placeholder='sec')
+                %input.form-control(type='number' ng-model='videoPlayerCtrl.highlight.endMinutes' style='display: inline-block; width: 100px;' placeholder='min')
+                %input.form-control(type='number' ng-model='videoPlayerCtrl.highlight.endSeconds' style='display: inline-block; width: 100px;' placeholder='sec')
 
               .form-group
                 %p What should it be called?
-                %input.form-control(ng-model='highlight.title' placeholder='Cookie Monster with the HUGE layout D!')
+                %input.form-control(ng-model='videoPlayerCtrl.highlight.title' placeholder='Cookie Monster with the HUGE layout D!')
 
 
               .form-group
-                %button.btn.btn-primary {{ savingHighlight ? 'Saving...' : 'Save highlight' }}
+                %button.btn.btn-primary {{ videoPlayerCtrl.savingHighlight ? 'Saving...' : 'Save highlight' }}
 
-                
-            %p(ng-repeat='highlight in video.highlights')
+
+            %p(ng-repeat='highlight in videoPlayerCtrl.video.highlights')
               {{highlight.title}}
-              %a(href='javascript:void(0);' ng-click='jumpToHighlight(highlight)')
+              %a(href='javascript:void(0);' ng-click='videoPlayerCtrl.jumpToHighlight(highlight)')
                 %small jump to this highlight
-                  
+
           .col-sm-6.text-right
             %small= link_to 'explore this video &raquo;'.html_safe, video_path(video)
         %br
