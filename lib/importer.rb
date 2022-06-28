@@ -3,6 +3,20 @@ class Importer
   attr_reader :user
   def initialize(user)
     @user = user
+    # TODO store all these in user model
+    @team_id = '5699535384870912'
+    @password = nil
+    @youtube_channel_id = 'UCjCcPCvxpSsvHNmgC3SNUZQ'
+  end
+
+  def password_needed?
+    response = HTTParty.get "http://www.ultianalytics.com/rest/view/team/#{@team_id}/gamesdata"
+    response.code == 401
+  end
+
+  def authenticate
+    response = HTTParty.post "http://www.ultianalytics.com/rest/view/team/#{@team_id}/authenticate/#{@password}"
+    @auth = response.headers['iultimateauth']
   end
 
   def import_events
@@ -10,9 +24,8 @@ class Importer
     beginning_of_time = Date.parse("Jan 1 2001 UTC").beginning_of_day - 9.hours
 
     # TODO store team id in user model
-    team_id = '5699535384870912'
 
-    response = HTTParty.get "http://www.ultianalytics.com/rest/view/team/#{team_id}/gamesdata"
+    response = HTTParty.get "http://www.ultianalytics.com/rest/view/team/#{@team_id}/gamesdata"
     games = JSON.parse response.body
     action_types = {}
     for game in games
@@ -144,8 +157,6 @@ class Importer
     # "youtube_id" which is what we need in order to stream the video.
     # If you want to create new video objects from youtube videos, use import_youtube_videos below.
 
-    # TODO store user's channel_id in user model
-    youtube_channel_id = 'UCjCcPCvxpSsvHNmgC3SNUZQ'
     # when you ask for all of the user's videos, Youtube seems to return a semi-random 
     # number of results. I've tried this many times. However, if the user has a playlist,
     # then it's always correct. For this reason we're using an "All videos" playlist,
@@ -153,7 +164,7 @@ class Importer
     seen_titles = []
     matched_titles = []
 
-    channel = Yt::Channel.new id:  youtube_channel_id
+    channel = Yt::Channel.new id:  @youtube_channel_id
     playlist = channel.playlists.find{|p| p.title.match /all/i }
     for item in playlist.playlist_items
     
@@ -184,8 +195,6 @@ class Importer
     # which won't have their timestamps set initially, cause youtube doesn't tell us that info.
     # If you want to update existing videos with their youtube_ids, use import_youtube_video_ids above.
 
-    # TODO store user's channel_id in user model
-    youtube_channel_id = 'UCjCcPCvxpSsvHNmgC3SNUZQ'
     # when you ask for all of the user's videos, Youtube seems to return a semi-random 
     # number of results. I've tried this many times. However, if the user has a playlist,
     # then it's always correct. For this reason we're using an "All videos" playlist,
@@ -194,7 +203,7 @@ class Importer
     matched_titles = []
     new_titles = []
 
-    channel = Yt::Channel.new id:  youtube_channel_id
+    channel = Yt::Channel.new id:  @youtube_channel_id
     playlist = channel.playlists.find{|p| p.title.match /all/i }
     for item in playlist.playlist_items
       next if item.title == 'Deleted video'
