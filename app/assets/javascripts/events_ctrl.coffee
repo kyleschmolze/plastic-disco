@@ -1,71 +1,75 @@
-angular.module('plastic-disco').controller 'EventsCtrl', ['$scope', '$http', ($scope, $http) ->
-  $scope.sort = 'desc'
+EventsController = ($http) ->
+  vm = this
 
-  $scope.loadEvents = ->
-    $scope.loading = true
-    params = { query: $scope.query, sort: $scope.sort }
-    if $scope.requireVideo
+  vm.sort = 'desc'
+
+  vm.loadEvents = ->
+    vm.loading = true
+    params = { query: vm.query, sort: vm.sort }
+    if vm.requireVideo
       params.require_video = true
     $http.get '/events/search.json', params: params
     .success (data) ->
-      $scope.events = data
-      $scope.loading = false
+      vm.events = data
+      vm.loading = false
 
-  $scope.loadMore = ->
-    params = { query: $scope.query, offset: $scope.events.lengt, sort: $scope.sort  }
-    if $scope.requireVideo
+  vm.loadMore = ->
+    params = { query: vm.query, offset: vm.events.length, sort: vm.sort  }
+    if vm.requireVideo
       params.require_video = true
     $http.get '/events/search.json', params: params
     .success (data) ->
-      $scope.events = $scope.events.concat data
+      vm.events = vm.events.concat data
 
-  $scope.typing = _.debounce $scope.loadEvents, 200
+  vm.typing = _.debounce vm.loadEvents, 200
 
-  $scope.seekTo = (event) ->
+  vm.seekTo = (event) ->
     loc = event.starts_at_since_epoch - video.starts_at_since_epoch
     window.seek loc
 
-
   # This stuff only happens on videos#show
 
-  $scope.select = (event) ->
-    $scope.selectedEvent = event
+  vm.select = (event) ->
+    vm.selectedEvent = event
 
-  $scope.clearSelection = ->
-    $scope.selectedEvent = null
+  vm.clearSelection = ->
+    vm.selectedEvent = null
 
-  $scope.alignWithoutEvent = ->
-    $http.put "/videos/#{$scope.video_id}.json", video: { aligned: true }
+  vm.alignWithoutEvent = ->
+    $http.put "/videos/#{vm.video_id}.json", video: { aligned: true }
     .success (data) ->
       alert "Success! Refreshing the page now for review..."
       location.reload()
     .error ->
       alert "Failure!"
 
-  $scope.alignWithSelectedEvent = ->
+  vm.alignWithSelectedEvent = ->
     event.starts_at
-    $http.post "/videos/#{$scope.video_id}/align_to_event.json", { event_id: $scope.selectedEvent.id, seconds_into_clip: $scope.secondsIntoClip, minutes_into_clip: $scope.minutesIntoClip }
+    $http.post "/videos/#{vm.video_id}/align_to_event.json", { event_id: vm.selectedEvent.id, seconds_into_clip: vm.secondsIntoClip, minutes_into_clip: vm.minutesIntoClip }
     .success (data) ->
       alert "Success! Refreshing the page now for review..."
       location.reload()
     .error (data) ->
       alert "Failure! Did you input seconds and minutes?"
 
-  $scope.saveOffset = ->
-    $http.post "/videos/#{$scope.video_id}/offset.json", offset: $scope.offset
+  vm.saveOffset = ->
+    debugger
+    $http.post "/videos/#{vm.video_id}/offset.json", offset: vm.offset
     .success (data) ->
       alert "Success! Refreshing the page now for review..."
       location.reload()
     .error ->
       alert "Failure!"
 
-  $scope.init = (video_id, options = {}) ->
+  vm.init = (video_id, options = {}) ->
     # only videos#show uses the init function
-    $scope.video_id = video_id
-    $http.get("/videos/#{video_id}.json").success (d) -> $scope.video = d
-    $scope.sort = options.sort if options.sort?
-    $scope.loadEvents()
+    vm.video_id = video_id
+    $http.get("/videos/#{video_id}.json").success (d) -> vm.video = d
+    vm.sort = options.sort if options.sort?
+    vm.loadEvents()
 
-  $scope.loadEvents()
+  vm.loadEvents()
 
-]
+EventsController.$inject = ['$http']
+
+angular.module('plastic-disco').controller 'EventsCtrl', EventsController
